@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head(#{tests.title})}"></head>
+<body>
+    <div th:replace="~{fragments/layout :: main(~{::content})}">
+        <div th:fragment="content">
+            <h2 th:text="#{tests.title}">Тесты</h2>
+
+            <!-- Only TEACHER can see Add New Test button -->
+            <div sec:authorize="hasRole('TEACHER')" class="mb-3">
+                <a href="/tests/new" class="btn btn-primary" th:text="#{tests.add}">Добавить тест</a>
+            </div>
+
+            <!-- Tests Table -->
+            <table class="table table-bordered table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Название</th>
+                        <th>Предмет</th>
+                        <th>Описание</th>
+                        <th sec:authorize="hasRole('STUDENT')">Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="test : ${tests}">
+                        <td th:text="${test.id}">1</td>
+                        <td th:text="${test.name}">Контрольная по математике</td>
+                        <td th:text="${test.subject}">Математика</td>
+                        <td th:text="${test.description}">Алгебра - 10 задач</td>
+                        <td sec:authorize="hasRole('STUDENT')">
+                            <a th:href="@{/tests/{id}/take(id=${test.id})}" class="btn btn-success btn-sm" th:text="#{tests.take}">Пройти тест</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

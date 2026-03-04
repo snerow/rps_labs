@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Добавить ученика')}"></head>
+<body>
+    <div th:replace="~{fragments/layout :: main(~{::content})}">
+        <div th:fragment="content">
+            <h2 th:text="#{student.new.title}">Добавить нового ученика</h2>
+
+            <div class="alert alert-info">
+                <p th:text="#{student.new.info}">Эта страница позволяет создать новый аккаунт ученика.</p>
+                <p th:text="#{student.new.access}">Доступно для: МЕНЕДЖЕР, УЧИТЕЛЬ</p>
+            </div>
+
+            <form method="post" th:action="@{/students/new}">
+                <div class="mb-3">
+                    <label class="form-label" th:text="#{student.new.username}">Имя пользователя</label>
+                    <input type="text" class="form-control" name="username" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" th:text="#{student.new.password}">Пароль</label>
+                    <input type="password" class="form-control" name="password" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" th:text="#{student.new.name}">Имя ученика</label>
+                    <input type="text" class="form-control" name="name" required />
+                </div>
+                <button type="submit" class="btn btn-primary" th:text="#{student.new.button}">Создать ученика</button>
+                <a href="/students" class="btn btn-secondary" th:text="#{button.cancel}">Отмена</a>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

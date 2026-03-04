@@ -1,10 +1,59 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{fragments/layout :: head('Home')}"></head>
 <body>
     <div th:replace="~{fragments/layout :: main(~{::content})}">
         <div th:fragment="content" class="text-center mt-5">
             <h1 th:text="#{home.welcome}">Welcome to Our Project!</h1>
+
+            <!-- Show role information when authenticated -->
+            <div sec:authorize="isAuthenticated()" class="mt-4">
+                <div class="alert alert-info">
+                    <p>Welcome, <strong sec:authentication="name">User</strong>!</p>
+                    <p>Your roles:</p>
+                    <ul class="list-unstyled">
+                        <li sec:authorize="hasRole('MANAGER')" class="text-primary fw-bold">MANAGER</li>
+                        <li sec:authorize="hasRole('TEACHER')" class="text-success fw-bold">TEACHER</li>
+                        <li sec:authorize="hasRole('STUDENT')" class="text-warning fw-bold">STUDENT</li>
+                    </ul>
+                </div>
+
+                <div class="mt-4">
+                    <h4>Available Actions:</h4>
+                    <div sec:authorize="hasRole('MANAGER')" class="mt-3">
+                        <h5 class="text-primary">Manager Actions:</h5>
+                        <a href="/teachers/new" class="btn btn-outline-primary m-1">Add New Teacher</a>
+                        <a href="/teachers/1/edit" class="btn btn-outline-primary m-1">Modify Teacher Profile</a>
+                        <a href="/students/1/edit" class="btn btn-outline-primary m-1">Modify Student Profile</a>
+                        <a href="/students/1/marks/edit" class="btn btn-outline-primary m-1">Modify Student Marks</a>
+                    </div>
+                    <div sec:authorize="hasRole('TEACHER')" class="mt-3">
+                        <h5 class="text-success">Teacher Actions:</h5>
+                        <a href="/students/1/marks/edit" class="btn btn-outline-success m-1">Modify Student Marks</a>
+                        <a href="/subjects/new" class="btn btn-outline-success m-1">Add New Subject</a>
+                        <a href="/tests/new" class="btn btn-outline-success m-1">Add New Test</a>
+                    </div>
+                    <div sec:authorize="hasRole('STUDENT')" class="mt-3">
+                        <h5 class="text-warning">Student Actions:</h5>
+                        <a href="/tests/1/take" class="btn btn-outline-warning m-1">Pass Test</a>
+                        <a href="/students/1/marks" class="btn btn-outline-warning m-1">View Marks</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Show login prompt when not authenticated -->
+            <div sec:authorize="!isAuthenticated()" class="mt-4">
+                <div class="alert alert-warning">
+                    <p>Please <a th:href="@{/login}">login</a> to access the system.</p>
+                    <p class="mb-0">Demo accounts:</p>
+                    <ul class="list-unstyled">
+                        <li><strong>manager / manager</strong> - Manager role</li>
+                        <li><strong>teacher / teacher</strong> - Teacher role</li>
+                        <li><strong>student / student</strong> - Student role</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </body>

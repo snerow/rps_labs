@@ -17,17 +17,17 @@
                         <span th:text="' out the following form to log in.'"> out the following form to log in.</span>
                     </p>
 
-                    <form th:action="@{/login}" th:object="${loginForm}" method="post">
+                    <form th:action="@{/login}" method="post">
                         <div class="mb-3">
                             <label class="form-label" th:text="#{login.username}">Username</label>
-                            <input type="text" class="form-control" th:field="*{username}" required />
+                            <input type="text" class="form-control" name="username" required />
                         </div>
                         <div class="mb-3">
                             <label class="form-label" th:text="#{login.password}">Password</label>
-                            <input type="password" class="form-control" th:field="*{password}" required />
+                            <input type="password" class="form-control" name="password" required />
                         </div>
                         <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" th:field="*{rememberMe}" id="rememberMe" />
+                            <input type="checkbox" class="form-check-input" name="remember-me" id="rememberMe" />
                             <label class="form-check-label" for="rememberMe" th:text="#{login.remember}">Remember me</label>
                         </div>
                         <button type="submit" class="btn btn-primary" th:text="#{login.button}">Login</button>

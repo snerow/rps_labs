@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(#{tests.take})}"></head>
+<body>
+    <div th:replace="~{fragments/layout :: main(~{::content})}">
+        <div th:fragment="content">
+            <h2 th:text="#{tests.take}">Пройти тест</h2>
+
+            <div class="alert alert-info">
+                <p>ID теста: <strong th:text="${id}">1</strong></p>
+                <p>Эта страница позволяет ученикам проходить тесты.</p>
+                <p>Только УЧЕНИК может получить доступ к этой странице.</p>
+            </div>
+
+            <form method="post">
+                <div class="mb-3">
+                    <label class="form-label">Вопрос 1: Сколько будет 2 + 2?</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="answers" value="3" id="ans1" />
+                        <label class="form-check-label" for="ans1">3</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="answers" value="4" id="ans2" />
+                        <label class="form-check-label" for="ans2">4</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="answers" value="5" id="ans3" />
+                        <label class="form-check-label" for="ans3">5</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success" th:text="#{button.save}">Отправить</button>
+                <a href="/tests" class="btn btn-secondary" th:text="#{button.cancel}">Отмена</a>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

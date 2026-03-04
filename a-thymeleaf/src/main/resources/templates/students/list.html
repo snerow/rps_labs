@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head(#{students.title})}"></head>
+<body>
+    <div th:replace="~{fragments/layout :: main(~{::content})}">
+        <div th:fragment="content">
+            <h2 th:text="#{students.title}">Ученики</h2>
+
+            <!-- MANAGER or TEACHER can add new student -->
+            <div sec:authorize="hasAnyRole('MANAGER', 'TEACHER')" class="mb-3">
+                <a href="/students/new" class="btn btn-primary" th:text="#{students.add}">Добавить ученика</a>
+            </div>
+
+            <!-- Students Table -->
+            <table class="table table-bordered table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Имя пользователя</th>
+                        <th>ФИО</th>
+                        <th>Email</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="student : ${students}">
+                        <td th:text="${student.id}">1</td>
+                        <td th:text="${student.username}">student</td>
+                        <td th:text="${student.name}">Смирнов Алексей</td>
+                        <td th:text="${student.email}">student@school.ru</td>
+                        <td>
+                            <!-- Edit Profile - only for MANAGER -->
+                            <a sec:authorize="hasRole('MANAGER')" th:href="@{/students/{id}/edit(id=${student.id})}" class="btn btn-warning btn-sm mb-1" th:text="#{students.edit}">Изменить профиль</a>
+                            <!-- View Marks - for all -->
+                            <a th:href="@{/students/{id}/marks(id=${student.id})}" class="btn btn-info btn-sm mb-1" th:text="#{students.marks.view}">Просмотреть оценки</a>
+                            <!-- Edit Marks - for MANAGER and TEACHER -->
+                            <a sec:authorize="hasAnyRole('MANAGER', 'TEACHER')" th:href="@{/students/{id}/marks/edit(id=${student.id})}" class="btn btn-success btn-sm mb-1" th:text="#{students.marks.edit}">Изменить оценки</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

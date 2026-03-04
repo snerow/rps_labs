@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${action})}"></head>
+<body>
+    <div th:replace="~{fragments/layout :: main(~{::content})}">
+        <div th:fragment="content">
+            <h2 th:text="${action}">Добавить тест</h2>
+
+            <div class="alert alert-info">
+                <p>Страница: <strong th:text="${action}">Действие</strong></p>
+                <p>Только УЧИТЕЛЬ может получить доступ к этой странице.</p>
+            </div>
+
+            <form method="post">
+                <div class="mb-3">
+                    <label class="form-label">Название теста</label>
+                    <input type="text" class="form-control" name="name" placeholder="Введите название теста" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Предмет</label>
+                    <input type="text" class="form-control" name="subject" placeholder="Например: Математика" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Описание</label>
+                    <textarea class="form-control" name="description" rows="3" placeholder="Введите описание теста"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" th:text="#{button.save}">Сохранить</button>
+                <a href="/tests" class="btn btn-secondary" th:text="#{button.cancel}">Отмена</a>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
