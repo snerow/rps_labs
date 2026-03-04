@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Signup')}"></head>
+<body>
+    <div th:replace="~{fragments/layout :: main(~{::content})}">
+        <div th:fragment="content">
+            <!-- Error messages -->
+            <div th:if="${param.error}" class="alert alert-danger" role="alert">
+                <span th:if="${param.error[0] == 'usernameExists'}" th:text="#{signup.error.usernameExists}">Username already exists</span>
+                <span th:if="${param.error[0] == 'passwordMismatch'}" th:text="#{signup.error.passwordMismatch}">Passwords do not match</span>
+                <span th:if="${param.error[0] == 'terms'}" th:text="#{signup.error.terms}">You must agree to the terms and conditions</span>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <h2 class="text-center mb-1 fw-bold" th:text="#{signup.title}">Signup</h2>
+                    <p class="text-center mb-4">
+                        <span class="text-danger">Fill</span>
+                        <span th:text="' out the following form to create a new account.'"> out the following form to create a new account.</span>
+                    </p>
+
+                    <form th:action="@{/signup}" th:object="${signupForm}" method="post">
+                        <div class="mb-3">
+                            <label class="form-label" th:text="#{signup.username}">Username</label>
+                            <input type="text" class="form-control" th:field="*{username}" required />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" th:text="#{signup.password}">Password</label>
+                            <input type="password" class="form-control" th:field="*{password}" required />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" th:text="#{signup.confirmPassword}">Confirm Password</label>
+                            <input type="password" class="form-control" th:field="*{confirmPassword}" required />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" th:text="#{signup.email}">Email</label>
+                            <input type="email" class="form-control" th:field="*{email}" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" th:text="#{signup.dateOfBirth}">Date of Birth</label>
+                            <input type="date" class="form-control" th:field="*{dateOfBirth}" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" th:text="#{signup.age}">Age</label>
+                            <input type="number" class="form-control" th:field="*{age}" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label d-block" th:text="#{signup.gender}">Gender</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" th:field="*{gender}" value="Male" id="genderMale" />
+                                <label class="form-check-label" for="genderMale" th:text="#{signup.gender.male}">Male</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" th:field="*{gender}" value="Female" id="genderFemale" />
+                                <label class="form-check-label" for="genderFemale" th:text="#{signup.gender.female}">Female</label>
+                            </div>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" th:field="*{agreedToTerms}" id="terms" />
+                            <label class="form-check-label" for="terms" th:text="#{signup.terms}">I agree to the terms and conditions</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary" th:text="#{signup.button}">Register</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

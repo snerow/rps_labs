@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Users')}"></head>
+<body>
+    <div th:replace="~{fragments/layout :: main(~{::content})}">
+        <div th:fragment="content">
+            <h2 class="mb-4" th:text="#{users.title}">User List</h2>
+
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th th:text="#{users.username}">Username</th>
+                        <th th:text="#{users.actions}">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="user : ${users}">
+                        <td th:text="${user.username}">username</td>
+                        <td>
+                            <a th:href="@{/users/modify(username=${user.username})}"
+                               class="btn btn-primary btn-sm me-1"
+                               th:text="#{users.modify}">Modify</a>
+                            <form th:action="@{/users/delete}" method="post" style="display:inline">
+                                <input type="hidden" name="username" th:value="${user.username}" />
+                                <button type="submit" class="btn btn-danger btn-sm" th:text="#{users.delete}">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
